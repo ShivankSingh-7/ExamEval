@@ -13,9 +13,17 @@ export const AuthProvider = ({ children }) => {
   // Load user from localStorage on refresh
   useEffect(() => {
     const user = localStorage.getItem('examEvalUser');
-    if (user) setCurrentUser(JSON.parse(user));
+    if (user && user !== 'undefined') {
+      try {
+        setCurrentUser(JSON.parse(user));
+      } catch (err) {
+        console.error('Error parsing user from localStorage:', err);
+        localStorage.removeItem('examEvalUser'); // remove corrupted entry
+      }
+    }
     setLoading(false);
   }, []);
+
 
   // Register user
   const register = async (name, email, password, role) => {
