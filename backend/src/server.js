@@ -83,6 +83,11 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Test route
+app.get('/', (req, res) => {
+  res.send('ExamEval API is running...');
+});
+
 // API routes
 const API_VERSION = process.env.API_VERSION || 'v1';
 app.use(`/api/${API_VERSION}/auth`, authRoutes);
@@ -92,12 +97,12 @@ app.use(`/api/${API_VERSION}/evaluations`, evaluationRoutes);
 app.use(`/api/${API_VERSION}/uploads`, uploadRoutes);
 app.use(`/api/${API_VERSION}/analytics`, analyticsRoutes);
 
-// Error handling middleware
+// Error handling middleware (must be last)
 app.use(notFound);
 app.use(errorHandler);
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`🚀 ExamEval API server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
 });
